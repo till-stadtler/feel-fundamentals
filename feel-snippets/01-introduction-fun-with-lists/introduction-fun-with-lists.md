@@ -19,28 +19,28 @@ A FEEL expression is always evaluated as part of an `execution context`, e.g. th
 In FEEL the following structure is called `context object`:
 ```json
 {
-    "type": "snake",
-    "mood": "depressed"
+  "type": "snake",
+  "mood": "depressed"
 }
 ```
 
 Our `execution context` looks like this:
 ```jsonc
 {
-    "jungle": [
-        {
-            "type": "snake",
-            "mood": "depressed"
-            //...
-        },
-        {
-            "type": "parrot",
-            "mood": "grumpy"
-            //...
-        }
-        //...
-    ]
+  "jungle": [
+    {
+      "type": "snake",
+      "mood": "depressed"
+      //...
+    },
+    {
+      "type": "parrot",
+      "mood": "grumpy"
+      //...
+    }
     //...
+  ]
+  //...
 }
 ```
 
@@ -48,9 +48,9 @@ Each `context object` can have additional fields. The `jungle` will contain more
 
 ### The Issue
 Now, if we go back to the problematic FEEL expression:
-```js   
-     some parrot
-       in jungle
+``` 
+some parrot
+in jungle
 satisfies parrot.mood = "grumpy"
 ```
 This structure is a combination of iterating over a list and checking if any  expression evaluated for each item in the list results in true.
@@ -63,19 +63,22 @@ As we can see from the `execution context`, not each animal in the `jungle` is a
 Let's look at some solutions!
 
 By not using `parrot` as the `iterator variable`, but instead using `animal`, we can find the following solution:
-```js                  
-     some animal
-       in jungle
-satisfies animal.type = "parrot" and animal.mood = "grumpy"
+```             
+some animal
+in jungle
+satisfies 
+  animal.type = "parrot" 
+  and 
+  animal.mood = "grumpy"
 ```
 An additional check for the `type` is necessary. We use logical conjunction by using the keyword `and`.
 
 While we lose the focus on the parrot as the `iterator variable`, the expression that is applied to each item in the list is concise and easy to understand.
 
 We can keep the parrot as the `iterator variable` by ensuring that the list we iterate over only contains parrots.
-```js                
-     some parrot
-       in jungle[type = "parrot"]
+```               
+some parrot
+in jungle[type = "parrot"]
 satisfies parrot.mood = "grumpy"
 ```
 We have now filtered the `jungle` to get a list of `context objects` that fulfil the expression `type = "parrot"`.
@@ -84,13 +87,26 @@ While there are other options, the two solutions above are the most suitable. On
 
 ### The Alternatives
 We can also make use of different FEEL functions and find:
-```js                  
-any(for animal in jungle return animal.type = "parrot" and animal.mood = "grumpy")
-any(for parrot in jungle[type = "parrot"] return parrot.mood = "grumpy")
+```               
+any(
+  for animal 
+  in jungle 
+  return 
+    animal.type = "parrot" 
+    and 
+    animal.mood = "grumpy"
+)
+any(
+  for parrot 
+  in jungle[type = "parrot"] 
+  return parrot.mood = "grumpy"
+)
 ```
 Or:
-```js
-count(jungle[type = "parrot" and mood = "grumpy"]) > 0
+```
+count(
+  jungle[type = "parrot" and mood = "grumpy"]
+) > 0
 ```
 We can take a closer look at these alternatives in a future post.
 

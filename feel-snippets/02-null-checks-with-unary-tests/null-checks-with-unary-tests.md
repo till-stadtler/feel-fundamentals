@@ -1,3 +1,7 @@
+<div>
+<img src="./brilliant-null-checks.png" alt="FEEP Introduction Slide 1" width="300">
+</div>
+
 # Null Checks - Using Unary Tests
 When working with conditions on exclusive or inclusive gateways in a BPMN process or with hide conditions in forms, null checks are essential.
 
