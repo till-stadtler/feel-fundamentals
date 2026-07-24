@@ -14,7 +14,7 @@
 ## Explanations
 Let's take a closer look at this problem!
 
-A FEEL expression is always evaluated as part of an `execution context`, e.g. the available variables in a process instance. In this case, we assume that a `list` of `context objects` called `jungle` is available.
+A FEEL expression is always evaluated as part of an `execution context`, e.g., the available variables in a process instance. In this case, we assume that a `list` of `context objects` called `jungle` is available.
 
 In FEEL the following structure is called `context object`:
 ```json
@@ -75,19 +75,22 @@ An additional check for the `type` is necessary. We use logical conjunction by u
 
 While we lose the focus on the parrot as the `iterator variable`, the expression that is applied to each item in the list is concise and easy to understand.
 
+---
+
 We can keep the parrot as the `iterator variable` by ensuring that the list we iterate over only contains parrots.
 ```               
 some parrot
 in jungle[type = "parrot"]
 satisfies parrot.mood = "grumpy"
 ```
-We have now filtered the `jungle` to get a list of `context objects` that fulfil the expression `type = "parrot"`.
+We have now filtered the `jungle` to get a list of `context objects` that fulfils the expression `type = "parrot"`.
 
 While there are other options, the two solutions above are the most suitable. One focusing on all animals, the other on parrots.
 
 ### The Alternatives
 We can also make use of different FEEL functions and find:
-```               
+```    
+// any() plus for loop instead of some in satisfies           
 any(
   for animal 
   in jungle 
@@ -96,6 +99,7 @@ any(
     and 
     animal.mood = "grumpy"
 )
+// or
 any(
   for parrot 
   in jungle[type = "parrot"] 
@@ -104,17 +108,15 @@ any(
 ```
 Or:
 ```
-count(
-  jungle[type = "parrot" and mood = "grumpy"]
-) > 0
+count(jungle[type = "parrot" and mood = "grumpy"]) > 0
 ```
 We can take a closer look at these alternatives in a future post.
 
 ## Try It Yourself
 You can jump directly into the new Scala FEEL Playground with these links:
 
-* [Some animal with unfiltered list](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=ICAgICBzb21lIGFuaW1hbAogICAgICAgaW4ganVuZ2xlCnNhdGlzZmllcyBhbmltYWwudHlwZSA9ICJwYXJyb3QiIGFuZCBhbmltYWwubW9vZCA9ICJncnVtcHki&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
-* [Some parrot with filtered list](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=ICAgICBzb21lIHBhcnJvdAogICAgICAgaW4ganVuZ2xlW3R5cGUgPSAicGFycm90Il0Kc2F0aXNmaWVzIHBhcnJvdC5tb29kID0gImdydW1weSI%3D&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
-* [Any animal](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=YW55KGZvciBhbmltYWwgaW4ganVuZ2xlIHJldHVybiBhbmltYWwudHlwZSA9ICJwYXJyb3QiIGFuZCBhbmltYWwubW9vZCA9ICJncnVtcHkiKQ%3D%3D&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
-* [Any parrot](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=YW55KGZvciBwYXJyb3QgaW4ganVuZ2xlW3R5cGUgPSAicGFycm90Il0gcmV0dXJuIHBhcnJvdC5tb29kID0gImdydW1weSIp&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
+* [Some animal with unfiltered list](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=c29tZSBhbmltYWwKaW4ganVuZ2xlCnNhdGlzZmllcwogIGFuaW1hbC50eXBlID0gInBhcnJvdCIgCiAgYW5kIAogIGFuaW1hbC5tb29kID0gImdydW1weSI%3D&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
+* [Some parrot with filtered list](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=c29tZSBwYXJyb3QKaW4ganVuZ2xlW3R5cGUgPSAicGFycm90Il0Kc2F0aXNmaWVzIHBhcnJvdC5tb29kID0gImdydW1weSI%3D&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
+* [Any animal](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=YW55KAogIGZvciBhbmltYWwgCiAgaW4ganVuZ2xlIAogIHJldHVybiAKICAgIGFuaW1hbC50eXBlID0gInBhcnJvdCIgCiAgICBhbmQgCiAgICBhbmltYWwubW9vZCA9ICJncnVtcHkiCik%3D&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
+* [Any parrot](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=YW55KAogIGZvciBwYXJyb3QgCiAgaW4ganVuZ2xlW3R5cGUgPSAicGFycm90Il0gCiAgcmV0dXJuIHBhcnJvdC5tb29kID0gImdydW1weSIKKQ%3D%3D&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
 * [Count filtered list](https://feel-playground.camunda.com/playground/index.html?expression-type=expression&expression=Y291bnQoanVuZ2xlW3R5cGUgPSAicGFycm90IiBhbmQgbW9vZCA9ICJncnVtcHkiXSkgPiAw&context=ewogICJqdW5nbGUiOiBbCiAgICB7CiAgICAgICJ0eXBlIjogInNuYWtlIiwKICAgICAgIm1vb2QiOiAiZGVwcmVzc2VkIgogICAgfSwKICAgIHsKICAgICAgInR5cGUiOiAicGFycm90IiwKICAgICAgIm1vb2QiOiAiZ3J1bXB5IgogICAgfQogIF0KfQ%3D%3D)
